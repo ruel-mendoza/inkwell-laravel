@@ -10,6 +10,18 @@ return [
     'key' => env('APP_KEY', 'base64:' . base64_encode(random_bytes(32))),
     'cipher' => 'AES-256-CBC',
     'providers' => [
+        /*
+         * Laravel Framework Service Providers...
+         */
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+
+        /*
+         * Application Service Providers...
+         */
         App\Providers\AppServiceProvider::class,
     ],
     'aliases' => [
