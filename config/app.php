@@ -9,21 +9,10 @@ return [
     'locale' => 'en',
     'key' => env('APP_KEY', 'base64:' . base64_encode(random_bytes(32))),
     'cipher' => 'AES-256-CBC',
-    'providers' => [
-        /*
-         * Laravel Framework Service Providers...
-         */
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-
-        /*
-         * Application Service Providers...
-         */
+    'providers' => \Illuminate\Support\ServiceProvider::defaultProviders()->merge([
         App\Providers\AppServiceProvider::class,
-    ],
+        App\Providers\RouteServiceProvider::class,
+    ])->toArray(),
     'aliases' => [
         'Arr' => Illuminate\Support\Arr::class,
         'Str' => Illuminate\Support\Str::class,

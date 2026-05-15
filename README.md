@@ -14,9 +14,10 @@ A beautiful, elegant content management system built with Laravel for managing a
 
 ## Requirements
 
-- PHP 8.1 or higher
-- SQLite or MySQL
+- PHP 8.2 or higher (Laravel 11)
 - Composer
+- SQLite or MySQL
+- PHP extensions: `pdo_sqlite` and `sqlite3` (for SQLite), or `pdo_mysql` (for MySQL)
 
 ## Installation
 
@@ -52,7 +53,9 @@ php artisan db:seed
 php artisan serve
 ```
 
-The application will be available at `http://localhost:8000`
+The application will be available at `http://127.0.0.1:8000`
+
+> **Tip:** If port 8000 is already in use, stop other `php artisan serve` processes before starting a new one.
 
 ## Default Credentials
 
@@ -134,6 +137,43 @@ innkwell-laravel/
 - author_id (Foreign Key → users.id)
 - views (Integer)
 - timestamps
+
+## Troubleshooting
+
+### `Target class [translator] does not exist`
+
+This project uses Laravel 11 but had a minimal `config/app.php` provider list left over from an older setup. Laravel could not register core services such as translation, session, or database.
+
+**Fix (included in this repo):** `config/app.php` registers Laravel’s default service providers and merges the application providers:
+
+```php
+'providers' => \Illuminate\Support\ServiceProvider::defaultProviders()->merge([
+    App\Providers\AppServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+])->toArray(),
+```
+
+Also required for a working app:
+
+- `app/Providers/RouteServiceProvider.php` — loads `routes/web.php`
+- `app/Http/Controllers/Controller.php` — base controller for HTTP controllers
+
+After pulling changes, clear cached bootstrap files if you still see provider errors:
+
+```bash
+php artisan optimize:clear
+```
+
+### `could not find driver` (SQLite)
+
+Enable the SQLite extensions in your `php.ini`:
+
+```ini
+extension=pdo_sqlite
+extension=sqlite3
+```
+
+Restart `php artisan serve` after changing PHP configuration.
 
 ## Development
 

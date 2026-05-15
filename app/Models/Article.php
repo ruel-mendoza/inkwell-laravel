@@ -29,6 +29,7 @@ class Article extends Model
         'featured' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'views' => 'integer',
     ];
 
     public function author()
